@@ -1,0 +1,194 @@
+    1  ls
+    2  ls
+    3  git clone https://github.com/laviniadragne/licenta-backend.git
+    4  sudo apt update
+    5  sudo su
+    6  sudo apt-get update
+    7  lsb_release -a
+    8  cat /etc/redhat-release
+    9  cat /etc/SuSE-release
+   10  sudo yum update
+   11  sudo yum install git
+   12  git clone https://github.com/laviniadragne/licenta-backend.git
+   13  ls
+   14  cd licenta-backend/
+   15  ls
+   16  sudo yum install gcc
+   17  gpg2 --recv-keys key1 key2
+   18  curl -sSL https://get.rvm.io | bash -s stable
+   19      gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+   20  sudo yum dirmngr
+   21  yum install dirmngr
+   22  sudo yum install dirmngr
+   23  sudo yum install 'dnf-command(dirmngr)'
+   24  curl -sSL https://get.rvm.io | bash -s stable
+   25  gpg2 --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+   26  dpkg
+   27  sudo yum install dirmngr
+   28  sudo yum install --skip-broken dirmngr
+   29  gpg2 --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+   30  sudo yum install --allowerasing dirmngr
+   31  gpg2 --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+   32  \curl -sSL https://get.rvm.io | bash -s stable
+   33  source ~/.rvm/scripts/rvm
+   34  rvm list known
+   35  rvm install 3.0.5
+   36  ruby --version
+   37  free -b | grep "Mem:" | awk '{print $2}'
+   38  free -h | grep "Mem:" | awk '{print $2}'
+   39  gem install bundler --no-rdoc --no-ri
+   40  gem install bundler --no-ri
+   41  gem install bundler
+   42  gem search '^rails$' --all
+   43  gem\
+   44  gem
+   45  gem -h
+   46  gem search '^rails$' --all
+   47  sudo yum install openssl
+   48  gem source -r https://rubygems.org/
+   49  gem source -a http://rubygems.org/
+   50  gem search '^rails$' --all
+   51  gem install rails -v 6.1.6
+   52  gem source -r https://rubygems.org/
+   53  gem source -a http://rubygems.org/
+   54  gem install rails -v 6.1.6
+   55  sudo yum install openssl
+   56  gem install rails -v 6.1.6
+   57  sudo yum groupinstall "Development Tools"
+   58  gem install rails -v 6.1.6
+   59  sudo yum install openssl
+   60  sudo yum remove openssl-1:3.0.8-1.amzn2023.0.2.x86_64
+   61  sudo yum install openssl
+   62  gem install rails -v 6.1.6
+   63  sudo yum install openssl-devel
+   64  make
+   65  gem install rails -v 7.0.2
+   66  gem search '^rails$' --all
+   67  gem install rails -v 7.0.2
+   68  sudo apt-get install libssl-dev libreadline-dev libgdbm-dev
+   69  sudo yum install libssl-dev libreadline-dev libgdbm-dev
+   70  ls
+   71  bundle install
+   72  gem install bundler
+   73  gem sources — add https://rubygems.org/
+   74  gem install bundler
+   75  openssl
+   76  brew install openssl
+   77  rvm reinstall 3.0.5 --with-openssl-dir=/usr/local/opt/openssl
+   78  gem install bundler
+   79  sudo yum install libssl-dev
+   80  sudo yum remove openssl-1:3.0.8-1.amzn2023.0.2.x86_64
+   81  rvm reinstall 3.0.5 --with-openssl-dir=/usr/local/opt/openssl
+   82  gem install bundler
+   83  rvm pkg install openssl
+   84  rvm install 3.0.5 --with-openssl-dir=$rvm_path/usr
+   85  gem install bundler
+   86  rvm install 3.0.5 --with-openssl-dir=$rvm_path/usr
+   87  rvm reinstall 3.0.5 --with-openssl-dir=$rvm_path/usr
+   88  gem install bundler
+   89  gem install rails -v 6.1.6
+   90  ls
+   91  bundle install
+   92  bundler install
+   93  bundle update --bundler
+   94  bundler install
+   95  bundle install
+   96  gem install bundler:1.17.2
+   97  bundle install
+   98  rails server
+   99  ps
+  100  ls
+  101  vim .ruby-version 
+  102  git checkout develop
+  103  git checkout debug
+  104  cat Gemfile
+  105  bundle install
+  106  ls
+  107  cd mkmf.log
+  108  cat /home/ec2-user/.rvm/gems/ruby-3.0.5/extensions/x86_64-linux/3.0.0/pg-1.2.3/gem_make.out
+  109  cat   /home/ec2-user/.rvm/gems/ruby-3.0.5/extensions/x86_64-linux/3.0.0/pg-1.2.3/mkmf.log
+  110  sudo yum install libpq-dev
+  111  yum install postgresql-devel
+  112  sudo yum install postgresql-devel
+  113  gem install pg
+  114  bundle install
+  115  rails server
+  116  sudo yum install telnet
+  117  telnet 44.208.27.131 3000
+  118  telnet 172.31.80.252 3000
+  119  aws ec2 describe-instances --instance-ids i-0c66d7a418a6cc7e2 --query 'Reservations[0].Instances[0].PublicIpAddress' --output text
+  120  aws configure
+  121  aws ec2 describe-instances --instance-ids i-0c66d7a418a6cc7e2 --query 'Reservations[0].Instances[0].PublicIpAddress' --output text
+  122  sudo aws ec2 describe-instances --instance-ids i-0c66d7a418a6cc7e2 --query 'Reservations[0].Instances[0].PublicIpAddress' --output text
+  123  ls
+  124  cd licenta-backend/
+  125  ls
+  126  bundle exec puma -C ./config/puma.rb
+  127  ls
+  128  cat l
+  129  cd log
+  130  ls
+  131  cat development.log 
+  132  bundle exec puma -C ./config/puma.rb -d
+  133  cd ../
+  134  bundle exec puma -C ./config/puma.rb -d
+  135  ps aux 
+  136  ps aux | grep puma
+  137  bundle exec puma -C ./config/puma.rb -d
+  138  RAILS_ENV=production rails db:create
+  139  RAILS_ENV=production rails db:migrate
+  140  bundle install --deployment
+  141  rails s
+  142  RAILS_ENV=production rails db:migrate
+  143  psql
+  144  psql -U postgres -d conta_development
+  145  psql -v
+  146  history
+  147  history 
+  148  history | grep yum
+  149  sudo yum install postgresql postgresql-server -y
+  150  sudo amazon-linux-extras install postgresql11
+  151  sudo yum install postgresql11
+  152  sudo yum install postgresql-server -y
+  153  sudo service postgresql start
+  154  sudo amazon-linux-extras enable postgresql14
+  155  sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
+
+[pgdg14]
+
+name=PostgreSQL 14 for RHEL/CentOS 7 - x86_64
+
+baseurl=https://download.postgresql.org/pub/repos/yum/14/redhat/rhel-7-x86_64
+
+enabled=1
+
+gpgcheck=0
+
+EOF
+
+  156  sudo yum install postgresql14 postgresql14-server
+  157  sudo yum install postgresql14 postgresql14-server --skip-broken
+  158  psql --version
+  159  sudo /usr/pgsql-14/bin/postgresql-14-setup initdb
+  160  sudo amazon-linux-extras enable postgresql13
+  161  rails db:migrate
+  162  RAILS_ENV=production rails db:migrate
+  163  RAILS_ENV=production rake db:create
+  164  vim config/application.rb 
+  165  RAILS_ENV=production rake db:create
+  166  bundle exec puma -C ./config/puma.rb -d
+  167  bundle exec puma -C ./config/puma.r
+  168  RAILS_ENV=production rails s
+  169  psql
+  170  sudo amazon-linux-extras enable postgresql14
+  171  cat /etc/yum.repos.d/pgdg.repo 
+  172  sudo yum update
+  173  sudo yum install postgresql14 postgresql14-server
+  174  history 
+  175  sudo yum delete libpq-dev
+  176  sudo yum remove libpq-dev
+  177  sudo yum remove postgresql-devel
+  178  sudo yum install postgresql14 postgresql14-server
+  179  bundle install
+  180  cat /etc/yum.repos.d/pgdg.repo 
+  181  history > backup
