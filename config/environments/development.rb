@@ -85,5 +85,10 @@ Rails.application.configure do
   # config.action_mailer.delivery_method = :postmark
   # config.action_mailer.postmark_settings = { :api_token => Rails.application.secrets.postmark_api_token }
 
+  # Configure Rails to write logs to a custom file (logs.txt)
+  log_file = Rails.root.join('log', 'logs.txt')
+  config.logger = Logger.new(log_file)  # 'a' for append mode, no rotation
+
+  config.log_level = :debug  # You can set the log level to :info, :warn, :error, :fatal as well
 
 end

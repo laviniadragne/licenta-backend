@@ -28,12 +28,14 @@ Rails.application.routes.draw do
           post 'remove_user'
           post 'update_roles'
           get 'view_roles'
+          delete 'remove'
         end
       end
       resources :angajat do
         collection do
           post 'join_company'
           get 'list_requests'
+          delete 'remove'
         end
       end
       resources :companies do

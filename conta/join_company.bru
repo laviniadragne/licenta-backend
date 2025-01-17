@@ -1,0 +1,17 @@
+meta {
+  name: join_company
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://127.0.0.1:3000/api/v1/angajat/join_company
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "cui": "1"
+  }
+}

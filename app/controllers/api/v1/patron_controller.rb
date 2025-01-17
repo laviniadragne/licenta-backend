@@ -20,29 +20,34 @@ class Api::V1::PatronController < Api::V1::ApiController
   end
   def create_company
     @company = Company.new(company_params)
+    logger.info("Attempting to create company with name: #{company_params[:name]} and CUI: #{company_params[:cui]}")
+    
     # Patronul trebuie sa aiba toate drepturile pe rapoarte
     @company.company_users.build(user: current_user, status: "aprobat", meta_data: {"categories" => Document::REPORTS})
     if @company.save
+      logger.info("Company created successfully with ID: #{@company.id}")
       # Trimite notificare de push pentru toti contabilii
       fcm_push_notification(company_params[:name], company_params[:cui])
       render json: { company: @company.serialize }
     else
+      logger.error("Error creating company: #{@company.errors.full_messages.join(", ")}")
       render json: @company.errors, status: :unprocessable_entity
     end
   end
 
   api :GET, "/patron/list_company_requests", "Rol patron: Listare cereri inregistrare companii in asteptare"
   def list_company_requests
-    # doar in asteptare
+        # doar in asteptare
+    logger.info("Fetching company registration requests for patron: #{current_user.id}")
     render json: current_user.companies.cerere.map(&:serialize)
     # in asteptare si refuzate
     # render json: (current_user.companies.cerere.or(current_user.companies.refuzat)).map(&:serialize)
   end
 
-
   api :GET, "/patron/list_join_requests", "Rol patron: Listare cereri aplicare angajati in asteptare pe 1 firma"
   def list_join_requests
     @company = current_user.companies.find(params[:company_id])
+    logger.info("Fetching join requests for company ID: #{@company.id}")
     render json: @company.company_users.cerere.map(&:serialize)
   end
 
@@ -52,9 +57,12 @@ class Api::V1::PatronController < Api::V1::ApiController
   def accept_join
     @company = current_user.companies.find(params[:company_id])
     @company_user = @company.company_users.find_by(id: params[:company_user_id], status: "cerere")
+    
     if @company_user.update(status: "aprobat")
+      logger.info("Employee ID: #{@company_user.user_id} accepted to join company ID: #{@company.id}")
       render json: @company_user.serialize
     else
+      logger.error("Error accepting join request for user ID: #{@company_user.user_id}")
       render json: @company_user.errors, status: :unprocessable_entity
     end
   end
@@ -65,9 +73,12 @@ class Api::V1::PatronController < Api::V1::ApiController
   def reject_join
     @company = current_user.companies.find(params[:company_id])
     @company_user = @company.company_users.find_by(id: params[:company_user_id], status: "cerere")
+    
     if @company_user.destroy
+      logger.info("Join request for user ID: #{@company_user.user_id} rejected from company ID: #{@company.id}")
       head 204
     else
+      logger.error("Error rejecting join request for user ID: #{@company_user.user_id}")
       render json: @company_user.errors, status: :unprocessable_entity
     end
   end
@@ -75,6 +86,7 @@ class Api::V1::PatronController < Api::V1::ApiController
   api :GET, "/patron/list_users", "Rol patron: Listeaza angajatii care au acces in 1 companie"
   def list_users
     @company = current_user.companies.find(params[:company_id])
+    logger.info("Fetching users for company ID: #{@company.id}")
     render json: @company.users.angajat.joins(:company_users).where("company_users.status = 1").distinct.map(&:serialize)
   end
 
@@ -84,14 +96,19 @@ class Api::V1::PatronController < Api::V1::ApiController
   def remove_user
     @company = current_user.companies.find(params[:company_id])
     @company_user = @company.company_users.find_by(user_id: params[:user_id])
+    
     if @company_user.nil?
+      logger.warn("User ID: #{params[:user_id]} not found in company ID: #{@company.id}")
       render json: {error: "User not found for this company"}, status: :not_found
       return
     end
+    
     if @company_user.destroy
-        head 204
+      logger.info("User ID: #{params[:user_id]} removed from company ID: #{@company.id}")
+      head 204
     else
-        render json: {errors: {remove_user: 'error'}}, status: :unprocessable_entity 
+      logger.error("Error removing user ID: #{params[:user_id]} from company ID: #{@company.id}")
+      render json: {errors: {remove_user: 'error'}}, status: :unprocessable_entity
     end
   end
 
@@ -102,15 +119,21 @@ class Api::V1::PatronController < Api::V1::ApiController
   def update_roles
     @company = current_user.companies.find(params[:company_id])
     @company_user = @company.company_users.find_by(user_id: params[:user_id])
+    
     if @company_user.nil?
+      logger.warn("User ID: #{params[:user_id]} not found in company ID: #{@company.id}")
       render json: {error: "User not found for this company"}, status: :not_found
       return
     end
+    
     @company_user.meta_data ||= {}
     @company_user.meta_data[:categories] ||= (params[:roles] || [])
+    
     if @company_user.save
+      logger.info("User ID: #{params[:user_id]} roles updated for company ID: #{@company.id}")
       render json: @company_user.serialize
-    else 
+    else
+      logger.error("Error updating roles for user ID: #{params[:user_id]} in company ID: #{@company.id}")
       render json: {errors: @company_user.errors}, status: :unprocessable_entity
     end
   end
@@ -119,13 +142,34 @@ class Api::V1::PatronController < Api::V1::ApiController
   def view_roles
     @company = current_user.companies.find(params[:company_id])
     @company_user = @company.company_users.find_by(user_id: params[:user_id])
+    
     if @company_user.meta_data.nil? || @company_user.meta_data.empty?
       roles = []
     else
       roles = @company_user.meta_data["categories"]
     end
 
+    logger.info("Fetching roles for user ID: #{params[:user_id]} in company ID: #{@company.id}")
     render json: { roles: roles }
+  end
+
+  api :DELETE, "/patron/remove", "Sterge patronu'"
+  def remove
+    companies = current_user.companies
+
+    for company in companies do
+      documents = company.documents
+
+      for document in documents do
+        document.destroy!
+      end
+      
+      company_user = current_user.company_user(company)
+      company_user.destroy!
+      company.destroy!
+    end
+
+    current_user.destroy!
   end
 
   private
@@ -139,6 +183,8 @@ class Api::V1::PatronController < Api::V1::ApiController
   end
 
   def fcm_push_notification(firm_name, firm_cui)
+    logger.info("Sending push notification for company: #{firm_name} (CUI: #{firm_cui}) to all accountants")
+    
     firebase_server_key = "AAAA_xnnZsI:APA91bHHigg8O9j4Tr0kWYkm6wtzyEB_7QqMTrhZrpuBSoPTFTeeyUTdEUIeh_XaciIQKVBKv9voXtw4PQR1i22jbJbPK9KsDYTY2HI6X6Tp2TAjx7CuG9OiZwiPdQCtDVzfgxLJZLQl"
     fcm_client = FCM.new(firebase_server_key)
     message = "Cerere in asteptare noua pentru firma cu numele: #{firm_name} si cuiul: #{firm_cui}"
@@ -158,6 +204,7 @@ class Api::V1::PatronController < Api::V1::ApiController
     registration_ids.each_slice(20) do |registration_id|
         response = fcm_client.send(registration_id, options)
         puts response
+        logger.info("Push notification response: #{response}")
     end
   end
 end

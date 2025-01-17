@@ -1,5 +1,5 @@
 class Api::V1::CompaniesController < Api::V1::ApiController
-  before_action :set_company, only: %i[ show update destroy ]
+  before_action :set_company, only: %i[show update destroy]
   before_action :authorize_user
 
   # Switch firm
@@ -12,6 +12,9 @@ class Api::V1::CompaniesController < Api::V1::ApiController
   end
   def index
     @companies = current_user.visible_companies
+    
+    # Logare acces
+    Rails.logger.info "User #{current_user.id} accessed 'index' at #{Time.now}. Visible companies count: #{@companies.count}"
   end
 
   api :GET, '/companies/:id', 'Toti utilizatorii: Afiseaza detalii pentru 1 companie din contul utilizatorului'
@@ -25,9 +28,17 @@ class Api::V1::CompaniesController < Api::V1::ApiController
     end
   end
   def show
-  end
+    # Logare acces
+    Rails.logger.info "User #{current_user.id} accessed 'show' for company id #{params[:id]} at #{Time.now}"
 
-  
+    if @company
+      # Logare răspuns
+      Rails.logger.info "User #{current_user.id} received company details response 200 OK at #{Time.now} for company id #{params[:id]}"
+    else
+      # Logare eroare
+      Rails.logger.info "User #{current_user.id} received response 404 Not Found at #{Time.now} for company id #{params[:id]}"
+    end
+  end
 
   private
 

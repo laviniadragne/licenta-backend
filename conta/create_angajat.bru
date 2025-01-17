@@ -1,0 +1,22 @@
+meta {
+  name: create_angajat
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://127.0.0.1:3000/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "user": {
+      "name": "Gigel",
+      "email": "gigel@gmail.com",
+      "password": "12345678910",
+      "role": "angajat"    
+    }
+  }
+}
