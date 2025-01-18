@@ -1,0 +1,20 @@
+meta {
+  name: login_contabil
+  type: http
+  seq: 13
+}
+
+post {
+  url: http://127.0.0.1:3000/users/sign_in
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "user": {
+      "email": "admin@localhost",
+      "password": "12345678"    
+    }
+  }
+}

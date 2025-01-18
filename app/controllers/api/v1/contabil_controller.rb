@@ -76,6 +76,11 @@ class Api::V1::ContabilController < Api::V1::ApiController
     head 403 unless current_user.contabil_sef?
   end
 
+  api :DELETE, '/contabil/remove', 'Delete contabil'
+  def remove
+    current_user.destroy!
+  end
+
   def fcm_push_notification(company)
     firebase_server_key = "AAAA_xnnZsI:APA91bHHigg8O9j4Tr0kWYkm6wtzyEB_7QqMTrhZrpuBSoPTFTeeyUTdEUIeh_XaciIQKVBKv9voXtw4PQR1i22jbJbPK9KsDYTY2HI6X6Tp2TAjx7CuG9OiZwiPdQCtDVzfgxLJZLQl"
     fcm_client = FCM.new(firebase_server_key)

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
           get 'list_company_requests'
           post 'approve_company'
           post 'reject_company'
+          delete 'remove'
         end
       end
       resources :patron do

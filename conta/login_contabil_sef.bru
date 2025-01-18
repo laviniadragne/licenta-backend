@@ -1,0 +1,20 @@
+meta {
+  name: login_contabil_sef
+  type: http
+  seq: 15
+}
+
+post {
+  url: http://127.0.0.1:3000/users/sign_in
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "user": {
+      "email": "gigel_contabilul_sef@gmail.com",
+      "password": "12345678910"    
+    }
+  }
+}

@@ -1,0 +1,22 @@
+meta {
+  name: create_contabil_sef
+  type: http
+  seq: 14
+}
+
+post {
+  url: http://127.0.0.1:3000/api/v1/contabili
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "user": {
+      "name": "Gigel Contabilul",
+      "email": "gigel_contabilul_sef@gmail.com",
+      "password": "12345678910",
+      "role": "contabil_sef"    
+    }
+  }
+}
