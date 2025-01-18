@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_17_220600) do
+ActiveRecord::Schema.define(version: 2025_01_18_145758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2023_06_17_220600) do
     t.integer "status", default: 0
     t.string "description"
     t.date "issue_date"
+    t.jsonb "metadata"
     t.index ["company_id"], name: "index_documents_on_company_id"
   end
 

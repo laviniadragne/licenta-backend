@@ -161,15 +161,19 @@ class Api::V1::PatronController < Api::V1::ApiController
       documents = company.documents
 
       for document in documents do
-        document.destroy!
+        document.destroy
       end
       
-      company_user = current_user.company_user(company)
-      company_user.destroy!
-      company.destroy!
+      company_users = CompanyUser.where(company_id: company.id)
+
+      for company_user in company_users do
+        company_user.destroy
+      end
+
+      company.destroy
     end
 
-    current_user.destroy!
+    current_user.destroy
   end
 
   private

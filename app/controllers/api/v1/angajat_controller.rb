@@ -9,7 +9,8 @@ class Api::V1::AngajatController < Api::V1::ApiController
     error code: 400, desc: "Bad Request",  meta: {errors: 'Validation errors'}
   
     def join_company
-      company = Company.find_by(cui: params[:cui])
+      enc_cui = ENCRYPTOR.encrypt_and_sign(params[:cui])
+      company = Company.find_by(cui: enc_cui)
       company_user = current_user.company_users.new(company: company)
       
       # Logare acces
