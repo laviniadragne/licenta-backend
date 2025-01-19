@@ -19,7 +19,7 @@ class Company < ApplicationRecord
     validates_uniqueness_of :name, :cui
   
     # Setare automată criptare/decriptare
-    before_save :encrypt_sensitive_data
+    before_validation :encrypt_sensitive_data
     after_find :decrypt_sensitive_data
   
     def serialize
