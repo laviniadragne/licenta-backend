@@ -25,19 +25,40 @@ class Company < ApplicationRecord
     def serialize
       self.as_json(only: [:id, :name, :cui, :status])
     end
-  
-    private
-  
-    def encrypt_sensitive_data
-      self.name = ENCRYPTOR.encrypt_and_sign(name)
-      self.cui = ENCRYPTOR.encrypt_and_sign(cui)
+
+    # Setări pentru criptare deterministă
+    CIPHER = OpenSSL::Cipher.new('aes-256-ecb')
+    SECRET_KEY = Rails.application.secret_key_base.byteslice(0, 32)
+
+    # Criptare deterministă
+    def encrypt(value)
+      CIPHER.encrypt
+      CIPHER.key = SECRET_KEY
+      encrypted_data = CIPHER.update(value.to_s) + CIPHER.final
+      Base64.encode64(encrypted_data)
     end
+
+    # Decriptare
+    def decrypt(value)
+      return if value.blank?
   
+      CIPHER.decrypt
+      CIPHER.key = SECRET_KEY
+      encrypted_data = Base64.decode64(value) # Decodifică din Base64
+      CIPHER.update(encrypted_data) + CIPHER.final
+    rescue OpenSSL::Cipher::CipherError
+      nil
+    end
+
+    # Criptarea câmpurilor sensibile
+    def encrypt_sensitive_data
+      self.name = encrypt(name)
+      self.cui = encrypt(cui)
+    end
+
     def decrypt_sensitive_data
-      self.name = ENCRYPTOR.decrypt_and_verify(name)
-      self.cui = ENCRYPTOR.decrypt_and_verify(cui)
-    rescue
-      # În caz de eroare de decriptare (date vechi)
+      self.name = decrypt(name)
+      self.cui = decrypt(cui)
     end
   end
   
