@@ -56,5 +56,7 @@ module ContaRailsBackend
     # gzip responses
     config.middleware.insert_after(ActionDispatch::Static, Rack::Deflater)
 
+    config.logger = Logger.new(Rails.root.join('log', 'custom.log'))
+
   end
 end
