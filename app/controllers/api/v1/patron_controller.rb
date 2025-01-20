@@ -187,28 +187,28 @@ class Api::V1::PatronController < Api::V1::ApiController
   end
 
   def fcm_push_notification(firm_name, firm_cui)
-    logger.info("Sending push notification for company: #{firm_name} (CUI: #{firm_cui}) to all accountants")
+  #   logger.info("Sending push notification for company: #{firm_name} (CUI: #{firm_cui}) to all accountants")
     
-    firebase_server_key = "AAAA_xnnZsI:APA91bHHigg8O9j4Tr0kWYkm6wtzyEB_7QqMTrhZrpuBSoPTFTeeyUTdEUIeh_XaciIQKVBKv9voXtw4PQR1i22jbJbPK9KsDYTY2HI6X6Tp2TAjx7CuG9OiZwiPdQCtDVzfgxLJZLQl"
-    fcm_client = FCM.new(firebase_server_key)
-    message = "Cerere in asteptare noua pentru firma cu numele: #{firm_name} si cuiul: #{firm_cui}"
-    image = nil
-    options = { priority: 'high',
-                data: { message: message, icon: image },
-                notification: { 
-                body: message,
-                sound: 'default',
-                icon: image,
-                tag: 'cerere'
-                }
-              }
-    registration_ids = User.where(role: ['contabil', 'contabil_sef']).pluck(:firebase_id)
-    registration_ids = [] if registration_ids.nil?
-    registration_ids = registration_ids.compact
-    registration_ids.each_slice(20) do |registration_id|
-        response = fcm_client.send(registration_id, options)
-        puts response
-        logger.info("Push notification response: #{response}")
-    end
+  #   firebase_server_key = "AAAA_xnnZsI:APA91bHHigg8O9j4Tr0kWYkm6wtzyEB_7QqMTrhZrpuBSoPTFTeeyUTdEUIeh_XaciIQKVBKv9voXtw4PQR1i22jbJbPK9KsDYTY2HI6X6Tp2TAjx7CuG9OiZwiPdQCtDVzfgxLJZLQl"
+  #   fcm_client = FCM.new(firebase_server_key)
+  #   message = "Cerere in asteptare noua pentru firma cu numele: #{firm_name} si cuiul: #{firm_cui}"
+  #   image = nil
+  #   options = { priority: 'high',
+  #               data: { message: message, icon: image },
+  #               notification: { 
+  #               body: message,
+  #               sound: 'default',
+  #               icon: image,
+  #               tag: 'cerere'
+  #               }
+  #             }
+  #   registration_ids = User.where(role: ['contabil', 'contabil_sef']).pluck(:firebase_id)
+  #   registration_ids = [] if registration_ids.nil?
+  #   registration_ids = registration_ids.compact
+  #   registration_ids.each_slice(20) do |registration_id|
+  #       response = fcm_client.send(registration_id, options)
+  #       puts response
+  #       logger.info("Push notification response: #{response}")
+  #   end
   end
 end

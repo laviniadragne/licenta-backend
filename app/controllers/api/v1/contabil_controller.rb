@@ -82,27 +82,27 @@ class Api::V1::ContabilController < Api::V1::ApiController
   end
 
   def fcm_push_notification(company)
-    firebase_server_key = "AAAA_xnnZsI:APA91bHHigg8O9j4Tr0kWYkm6wtzyEB_7QqMTrhZrpuBSoPTFTeeyUTdEUIeh_XaciIQKVBKv9voXtw4PQR1i22jbJbPK9KsDYTY2HI6X6Tp2TAjx7CuG9OiZwiPdQCtDVzfgxLJZLQl"
-    fcm_client = FCM.new(firebase_server_key)
-    message = "Cerere procesata pentru firma cu numele: #{company.name} si cuiul: #{company.cui}, statusul e: #{company.status}"
-    image = nil
-    options = { priority: 'high',
-                data: { message: message, icon: image },
-                notification: { 
-                body: message,
-                sound: 'default',
-                icon: image,
-                tag: 'status'
-                }
-              }
-    # Vreau sa trimit doar catre patron, nu catre toti angajatii firmei, notificare
-    patron_id = CompanyUser.where(company_id: company.id).pluck(:user_id).first
-    # E un singur id, nu o lista, pt ca am considerat ca patron-ul e logat la
-    # un anumit moment pe un singur telefon
-    registration_id = User.find(patron_id).firebase_id
-    response = fcm_client.send(registration_id, options)
-    puts response
-    # Logare notificare trimisa
-    Rails.logger.info "Push notification sent to patron (user_id #{patron_id}) for company_id #{company.id} at #{Time.now}. Response: #{response}"
+  #   firebase_server_key = "AAAA_xnnZsI:APA91bHHigg8O9j4Tr0kWYkm6wtzyEB_7QqMTrhZrpuBSoPTFTeeyUTdEUIeh_XaciIQKVBKv9voXtw4PQR1i22jbJbPK9KsDYTY2HI6X6Tp2TAjx7CuG9OiZwiPdQCtDVzfgxLJZLQl"
+  #   fcm_client = FCM.new(firebase_server_key)
+  #   message = "Cerere procesata pentru firma cu numele: #{company.name} si cuiul: #{company.cui}, statusul e: #{company.status}"
+  #   image = nil
+  #   options = { priority: 'high',
+  #               data: { message: message, icon: image },
+  #               notification: { 
+  #               body: message,
+  #               sound: 'default',
+  #               icon: image,
+  #               tag: 'status'
+  #               }
+  #             }
+  #   # Vreau sa trimit doar catre patron, nu catre toti angajatii firmei, notificare
+  #   patron_id = CompanyUser.where(company_id: company.id).pluck(:user_id).first
+  #   # E un singur id, nu o lista, pt ca am considerat ca patron-ul e logat la
+  #   # un anumit moment pe un singur telefon
+  #   registration_id = User.find(patron_id).firebase_id
+  #   response = fcm_client.send(registration_id, options)
+  #   puts response
+  #   # Logare notificare trimisa
+  #   Rails.logger.info "Push notification sent to patron (user_id #{patron_id}) for company_id #{company.id} at #{Time.now}. Response: #{response}"
   end
 end

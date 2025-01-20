@@ -9,8 +9,7 @@ class Api::V1::AngajatController < Api::V1::ApiController
     error code: 400, desc: "Bad Request",  meta: {errors: 'Validation errors'}
   
     def join_company
-      enc_cui = ENCRYPTOR.encrypt_and_sign(params[:cui])
-      company = Company.find_by(cui: enc_cui)
+      company = Company.find_by(cui: encrypt(params[:cui]))
       company_user = current_user.company_users.new(company: company)
       
       # Logare acces
@@ -50,5 +49,17 @@ class Api::V1::AngajatController < Api::V1::ApiController
    
     def authorize_user
         head 403 unless current_user.angajat?
+    end
+
+    # Setări pentru criptare deterministă
+    CIPHER = OpenSSL::Cipher.new('aes-256-ecb')
+    SECRET_KEY = Rails.application.secret_key_base.byteslice(0, 32)
+
+    # Criptare deterministă
+    def encrypt(value)
+      CIPHER.encrypt
+      CIPHER.key = SECRET_KEY
+      encrypted_data = CIPHER.update(value.to_s) + CIPHER.final
+      Base64.encode64(encrypted_data)
     end
 end
